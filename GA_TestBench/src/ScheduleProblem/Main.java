@@ -13,10 +13,10 @@ import java.util.Random;
 public class Main {
 
     // Sadly, we need backslashes for windows machines
-    public static final String TESTINSTANCE = "Instance Input Files\\tickle.txt";
-    public static final String SMALLINSTANCEFILE = "Instance Input Files\\smallish instance.txt";
-    public static final String MEDIUMINSTANCEFILE = "Instance Input Files\\biggerinstance.txt";
-    public static final String HUGEINSTANCE = "Instance Input Files\\super_huge_instance.txt";
+    public static final String TESTINSTANCE = "Instance Input Files/tickle.txt";
+    public static final String SMALLINSTANCEFILE = "Instance Input Files/smallish instance.txt";
+    public static final String MEDIUMINSTANCEFILE = "Instance Input Files/biggerinstance.txt";
+    public static final String HUGEINSTANCE = "Instance Input Files/super_huge_instance.txt";
     /**
      * These store the data points for the search methods
      * Do not use directly. Instead, use the get... method to get the end bits
@@ -35,12 +35,12 @@ public class Main {
      * @param args Useless ignored argument parameter
      */
     public static void main(String[] args) {
-//        davesTestingMain();
+        davesTestingMain();
 
 //        getGAParameterStats(51, 150, 1);
 //        getGASizeStats();
 
-        getAllStats(60, 400, 1, 4, 55, 0, MEDIUMINSTANCEFILE, "MEDIUM");
+//        getAllStats(60, 400, 1, 4, 55, 0, SMALLINSTANCEFILE, "SMALL");
 
 //        int maxpop = 40;
 //        int maxgen = 400;
@@ -62,7 +62,7 @@ public class Main {
         params.setPopulationSize(popSize);
         params.setMaxGenerations(numGens);
         params.setCopies(copies);
-        final String outFileName = "Data Files\\Parameters Data with population " +
+        final String outFileName = "Data Files/Parameters Data with population " +
                 popSize + " and " + numGens + " generations.txt";
 
         System.out.println(outFileName);
@@ -128,7 +128,7 @@ public class Main {
         int genhigh = 250;
         int gendiff = 5;
 
-        final String outFileName = "Data Files\\GA Size Data - Pop from " +
+        final String outFileName = "Data Files/GA Size Data - Pop from " +
                 poplow + "-" + pophigh + " Gen from " + genlow + "-" +
                 genhigh + " with " + numTrials + " Trials.txt";
 
@@ -218,12 +218,12 @@ public class Main {
             System.out.println("MutateSearch Done!");
 
             // Generate temporary files holding data of each iteration
-            String outfile = "Data Files\\tempAverageStatsOutput\\" + randomInstanceNumber + "_" + i + ".txt";
+            String outfile = "Data Files/tempAverageStatsOutput/" + randomInstanceNumber + "_" + i + ".txt";
             printStats(outfile, maxEvals);
         }
 
         // We generate uniform filenames so that it's easy to know what data is in a file
-        String outfile = "Data Files\\" + outFilePrepend + " " + "FullAverageStats(" + randomInstanceNumber + ") over " + numIterations + " iterations with " + maxEvals + " evals " +
+        String outfile = "Data Files/" + outFilePrepend + " " + "FullAverageStats(" + randomInstanceNumber + ") over " + numIterations + " iterations with " + maxEvals + " evals " +
                 params.getPopSize() + " pop " + params.getMaxGenerations() + " gens " +
                 params.getNumCopies() + " copies " + params.getNumMutations() + " mutations " +
                 params.getNumCrossovers() + " crossovers " + params.getNumRandoms() + " randoms" + ".txt";
@@ -248,7 +248,7 @@ public class Main {
         fitnessIntervals[0] = 1;
 
         for (int i = 1; i <= numIterations; i++) {
-            File infile = new File("Data Files\\tempAverageStatsOutput\\" + instanceNumber + "_" + i + ".txt");
+            File infile = new File("Data Files/tempAverageStatsOutput/" + instanceNumber + "_" + i + ".txt");
             Scanner scanner = null;
             String temp = null;
             try {
@@ -504,7 +504,16 @@ public class Main {
         GASolver<Schedule> worker = new GASolver<Schedule>(params);
         Schedule best = (Schedule) worker.run();
         int evals = worker.numEvaluations();
-//        best.showAllInfo();
+        best.showAllInfo();
+        
+        //TimeTable timetable = toString();
+        System.out.println("------------------------------------");
+        System.out.println("------------------------------------");
+        System.out.println("------------------------------------");
+        System.out.println(best.toString());
+        System.out.println("------------------------------------");
+        System.out.println("------------------------------------");
+        System.out.println("------------------------------------");
 
         System.out.println("Evaluate function called " + evals + " times.");
         System.out.println("The fitness function of this schedule gives: " + best.fitness());
@@ -514,24 +523,24 @@ public class Main {
         /****************************/
         /* Do Random search         */
         /****************************/
-        Schedule randomBest = randomSearch(evals, samplePeriod);
-        System.out.println("Random search with same number of evaluations gives fitness: " + randomBest.fitness());
+//        Schedule randomBest = randomSearch(evals, samplePeriod);
+//        System.out.println("Random search with same number of evaluations gives fitness: " + randomBest.fitness());
 //        randomBest.showAllInfo();
 //        System.out.println(getRandomSearchString());
 
         /****************************/
         /* Do HillClimbing search   */
         /****************************/
-        Schedule hillBest = ((Schedule) Schedule.random()).hillClimb(evals, samplePeriod);
-        System.out.println("Random Hillclimbing gives fitness: " + hillBest.fitness() + " in " + Schedule.getHillEvals() + " fitness evaluations");
+//        Schedule hillBest = ((Schedule) Schedule.random()).hillClimb(evals, samplePeriod);
+//        System.out.println("Random Hillclimbing gives fitness: " + hillBest.fitness() + " in " + Schedule.getHillEvals() + " fitness evaluations");
 //        hillBest.showAllInfo();
 //        System.out.println(Schedule.getHillclimbSearchString());
 
         /****************************/
         /* Do mutatesearch          */
         /****************************/
-        Schedule mutateSearchBest = mutateSearch(evals, samplePeriod);
-        System.out.println("Mutation Search gives fitness: " + mutateSearchBest.fitness() + " in " + evals + " fitness evaluations");
+//        Schedule mutateSearchBest = mutateSearch(evals, samplePeriod);
+//        System.out.println("Mutation Search gives fitness: " + mutateSearchBest.fitness() + " in " + evals + " fitness evaluations");
 //        mutateSearchBest.showAllInfo();
 //        System.out.println(getMutateSearchString());
 
